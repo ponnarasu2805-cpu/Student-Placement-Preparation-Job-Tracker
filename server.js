@@ -11,10 +11,11 @@ app.use(cors());
 app.use(express.json());
 
 // ==========================================
-// VERSION 6G - USER MODEL
+// VERSION 6M - USER PROFILE FIELDS
 // ==========================================
 
 const userSchema = new mongoose.Schema({
+
   name: {
       type: String,
           required: true,
@@ -30,7 +31,28 @@ const userSchema = new mongoose.Schema({
                                   type: String,
                                       required: true,
                                         },
-                                        });
+
+                                          college: {
+                                              type: String,
+                                                  default: "",
+                                                    },
+
+                                                      degree: {
+                                                          type: String,
+                                                              default: "",
+                                                                },
+
+                                                                  year: {
+                                                                      type: String,
+                                                                          default: "",
+                                                                            },
+
+                                                                              goal: {
+                                                                                  type: String,
+                                                                                      default: "",
+                                                                                        },
+
+                                                                                        });
 
                                         const User = mongoose.model("User", userSchema);
 
@@ -111,6 +133,77 @@ const userSchema = new mongoose.Schema({
                                                                                                                                                                                                                                                     }
 
                                                                                                                                                                                                                                                     });
+
+                                                                                                                                                                                                                                                    // ==========================================
+                                                                                                                                                                                                                                                    // VERSION 6L - UPDATE USER PROFILE
+                                                                                                                                                                                                                                                    // ==========================================
+
+                                                                                                                                                                                                                                                    app.put("/api/profile", authenticateToken, async (req, res) => {
+
+                                                                                                                                                                                                                                                      try {
+
+                                                                                                                                                                                                                                                          const { name, college, degree, year, goal } = req.body;
+
+                                                                                                                                                                                                                                                              const user = await User.findById(req.user.id);
+
+                                                                                                                                                                                                                                                                  if (!user) {
+
+                                                                                                                                                                                                                                                                        return res.status(404).json({
+                                                                                                                                                                                                                                                                                success: false,
+                                                                                                                                                                                                                                                                                        message: "User not found."
+                                                                                                                                                                                                                                                                                              });
+
+                                                                                                                                                                                                                                                                                                  }
+
+                                                                                                                                                                                                                                                                                                      // Update profile fields
+                                                                                                                                                                                                                                                                                                          if (name !== undefined) {
+                                                                                                                                                                                                                                                                                                                user.name = name;
+                                                                                                                                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                                                                                                                                        if (college !== undefined) {
+                                                                                                                                                                                                                                                                                                                              user.college = college;
+                                                                                                                                                                                                                                                                                                                                  }
+
+                                                                                                                                                                                                                                                                                                                                      if (degree !== undefined) {
+                                                                                                                                                                                                                                                                                                                                            user.degree = degree;
+                                                                                                                                                                                                                                                                                                                                                }
+
+                                                                                                                                                                                                                                                                                                                                                    if (year !== undefined) {
+                                                                                                                                                                                                                                                                                                                                                          user.year = year;
+                                                                                                                                                                                                                                                                                                                                                              }
+
+                                                                                                                                                                                                                                                                                                                                                                  if (goal !== undefined) {
+                                                                                                                                                                                                                                                                                                                                                                        user.goal = goal;
+                                                                                                                                                                                                                                                                                                                                                                            }
+
+                                                                                                                                                                                                                                                                                                                                                                                await user.save();
+
+                                                                                                                                                                                                                                                                                                                                                                                    res.json({
+                                                                                                                                                                                                                                                                                                                                                                                          success: true,
+                                                                                                                                                                                                                                                                                                                                                                                                message: "Profile updated successfully! 🎉",
+                                                                                                                                                                                                                                                                                                                                                                                                      user: {
+                                                                                                                                                                                                                                                                                                                                                                                                              id: user._id,
+                                                                                                                                                                                                                                                                                                                                                                                                                      name: user.name,
+                                                                                                                                                                                                                                                                                                                                                                                                                              email: user.email,
+                                                                                                                                                                                                                                                                                                                                                                                                                                      college: user.college,
+                                                                                                                                                                                                                                                                                                                                                                                                                                              degree: user.degree,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                      year: user.year,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                              goal: user.goal
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        });
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          } catch (error) {
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                              console.error("Profile update error:", error);
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  res.status(500).json({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        success: false,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              message: "Server error."
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  });
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    });
 
 
 const PORT = 3000;
