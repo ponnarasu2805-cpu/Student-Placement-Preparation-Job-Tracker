@@ -49,9 +49,6 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 
-// Temporary user storage
-const users = [];
-
 
 // Home page
 app.get("/", (req, res) => {
