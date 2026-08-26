@@ -1,0 +1,26 @@
+{
+  "name": "student-placement-preparation-job-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ponnarasu2805-cpu/Student-Placement-Preparation-Job-Tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ponnarasu2805-cpu/Student-Placement-Preparation-Job-Tracker/issues"
+  },
+  "homepage": "https://github.com/ponnarasu2805-cpu/Student-Placement-Preparation-Job-Tracker#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}
